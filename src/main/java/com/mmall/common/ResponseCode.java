@@ -8,7 +8,7 @@ package com.mmall.common;
 public enum ResponseCode {
     SUCCESS(0, "SUCCESS"),
     ERROR(1, "ERROR"),
-    NEED_LOGIN(10, "NEED_LOGIN"),
+    NEED_LOGIN(10, "用户未登录，无法获取当前用户信息"),
     ILLEGAL_ARGUMENT(2, "ILLEGAL_ARGUMENT");
 
     private final int code;
