@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  * @desc：后台用户模块接口
  */
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/manage/user/")
 public class UserManagerController {
     @Autowired
     private IUserService iUserService;
