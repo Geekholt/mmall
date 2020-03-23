@@ -171,4 +171,12 @@ public class UserServiceImpl implements IUserService {
         }
         return ServerResponse.createBySuccess("更新个人信息成功", user);
     }
+
+    @Override
+    public ServerResponse checkManager(User user) {
+        if (user != null && user.getRole() == Const.ROLE.ROLE_ADMIN) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
 }

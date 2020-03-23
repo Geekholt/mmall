@@ -24,4 +24,6 @@ public interface IUserService {
     ServerResponse<User> getUserInfo(Integer userId);
 
     ServerResponse<User> updateUserInfo(User user);
+
+    ServerResponse checkManager(User user);
 }

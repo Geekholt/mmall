@@ -1,6 +1,7 @@
 package com.mmall.controller.backend;
 
 import com.mmall.common.Const;
+import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
@@ -37,10 +38,10 @@ public class UserManagerController {
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {
             User user = response.getData();
-            if (user.getRole() == Const.ROLE.ROLE_ADMIN) {
+            if (iUserService.checkManager(user).isSuccess()) {
                 session.setAttribute(Const.CURRENT_USER, response.getData());
             } else {
-                return ServerResponse.createByErrorMessage("当前用户不是管理员，无法登陆");
+                return ServerResponse.createByErrorCodeMessage(ResponseCode.NOT_MANAGER.getCode(), ResponseCode.NOT_MANAGER.getDesc());
             }
         }
         return response;
