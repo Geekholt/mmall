@@ -1,6 +1,7 @@
 package com.mmall.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Category {
     private Integer id;
@@ -16,6 +17,8 @@ public class Category {
     private Date createTime;
 
     private Date updateTime;
+
+    private List<Category> categories;
 
     public Category(Integer id, Integer parentId, String name, Boolean status, Integer sortOrder, Date createTime, Date updateTime) {
         this.id = id;
@@ -86,4 +89,13 @@ public class Category {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
 }

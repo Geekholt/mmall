@@ -99,10 +99,16 @@ public class CategoryManagerController {
         return iCategoryService.getChildCategoryByParentId(parentId);
     }
 
-
-    @RequestMapping(value = "getDeepCategoryById.do", method = RequestMethod.POST)
+    /**
+     * 获取分类集合（只获取当前parentId下的所有子节点，会进行递归递归）
+     *
+     * @param session
+     * @param parentId
+     * @return
+     */
+    @RequestMapping(value = "getDeepCategoryByParentId.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<List<Integer>> getDeepCategoryById(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
+    public ServerResponse<List<Category>> getDeepCategoryByParentId(HttpSession session, @RequestParam(value = "parentId", defaultValue = "0") Integer parentId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
@@ -112,7 +118,7 @@ public class CategoryManagerController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NOT_MANAGER.getCode(), ResponseCode.NOT_MANAGER.getDesc());
         }
 
-        return iCategoryService.getDeepCategoryById(categoryId);
+        return iCategoryService.getDeepCategoryByParentId(parentId);
     }
 
 }

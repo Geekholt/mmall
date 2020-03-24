@@ -65,32 +65,21 @@ public class CategoryServiceImp implements ICategoryService {
         return ServerResponse.createBySuccess(categories);
     }
 
-    public ServerResponse<List<Integer>> getDeepCategoryById(Integer categoryId) {
-        Set<Category> categorySet = Sets.newHashSet();
-        findChildCategory(categorySet, categoryId);
-
-
-        List<Integer> categoryIdList = Lists.newArrayList();
-        if (categoryId != null) {
-            for (Category categoryItem : categorySet) {
-                categoryIdList.add(categoryItem.getId());
-            }
-        }
-        return ServerResponse.createBySuccess(categoryIdList);
+    @Override
+    public ServerResponse<List<Category>> getDeepCategoryByParentId(Integer parentId) {
+        List<Category> categories = categoryMapper.selectChildCategoryByParentId(parentId);
+        findChildCategory(categories);
+        return ServerResponse.createBySuccess(categories);
     }
 
 
     //递归算法,算出子节点
-    private Set<Category> findChildCategory(Set<Category> categorySet, Integer categoryId) {
-        Category category = categoryMapper.selectByPrimaryKey(categoryId);
-        if (category != null) {
-            categorySet.add(category);
+    private List<Category> findChildCategory(List<Category> categories) {
+        for (Category category : categories) {
+            Integer categoryId = category.getId();
+            List<Category> list = categoryMapper.selectChildCategoryByParentId(categoryId);
+            category.setCategories(findChildCategory(list));
         }
-        //查找子节点,递归算法一定要有一个退出的条件
-        List<Category> categoryList = categoryMapper.selectChildCategoryByParentId(categoryId);
-        for (Category categoryItem : categoryList) {
-            findChildCategory(categorySet, categoryItem.getId());
-        }
-        return categorySet;
+        return categories;
     }
 }
